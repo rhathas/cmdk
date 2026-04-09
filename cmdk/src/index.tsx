@@ -66,7 +66,7 @@ type GroupProps = Children &
     /** Whether this group is forcibly rendered regardless of filtering. */
     forceMount?: boolean
   }
-type InputProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.input>, 'value' | 'onChange' | 'type'> & {
+type InputProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.input>, 'value' | 'onChange'> & {
   /**
    * Optional controlled state for the value of the search input.
    */
@@ -75,6 +75,7 @@ type InputProps = Omit<React.ComponentPropsWithoutRef<typeof Primitive.input>, '
    * Event handler called when the search value changes.
    */
   onValueChange?: (search: string) => void
+  type?: React.InputHTMLAttributes<HTMLInputElement>['type']
 }
 type CommandFilter = (value: string, search: string, keywords?: string[]) => number
 type CommandProps = Children &
@@ -785,7 +786,7 @@ const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>((props, forwa
  * All props are forwarded to the underyling `input` element.
  */
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, forwardedRef) => {
-  const { onValueChange, ...etc } = props
+  const { onValueChange, type='text', ...etc } = props
   const isControlled = props.value != null
   const store = useStore()
   const search = useCmdk((state) => state.search)
@@ -813,7 +814,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, forwardedRe
       aria-labelledby={context.labelId}
       aria-activedescendant={selectedItemId}
       id={context.inputId}
-      type="text"
+      type={type}
       value={isControlled ? props.value : search}
       onChange={(e) => {
         if (!isControlled) {
