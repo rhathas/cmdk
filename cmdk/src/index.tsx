@@ -487,7 +487,7 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>((props, forwarded
   /** Getters */
 
   function getSelectedItem() {
-    return listInnerRef.current?.querySelector(`${ITEM_SELECTOR}[aria-selected="true"]`)
+    return listInnerRef.current?.querySelector(`${ITEM_SELECTOR}[data-selected="true"]`)
   }
 
   function getValidItems() {
@@ -707,7 +707,6 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>((props, forwardedRef) =
   return (
     <Primitive.div
       ref={composeRefs(ref, forwardedRef)}
-      {...etc}
       id={id}
       cmdk-item=""
       role="option"
@@ -717,6 +716,7 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>((props, forwardedRef) =
       data-selected={Boolean(selected)}
       onPointerMove={disabled || context.getDisablePointerSelection() ? undefined : select}
       onClick={disabled ? undefined : onSelect}
+      {...etc}
     >
       {props.children}
     </Primitive.div>
